@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from info2_app import views
 
+
 urlpatterns = [
-    path('welcome', views.welcome),
-    path('goodbye', views.goodbye),
-    path('current-time', views.current_time),
-    path("greet_Name", views.greet_Name),
-    path('age-category', views.age_category),
+    path('admin/', admin.site.urls),
+    path('welcome/', views.WelcomeView.as_view()),
+    path('goodbye/', views.GoodbyeView.as_view()),
+    path('about/', views.TemplateView.as_view()),
+    path('people/', views.PeopleView.as_view(), name='people'),
+    path('current-time/', views.current_time),
+    path("greet_Name/", views.greet_Name),
+    path('age-category/', views.age_category),
     path('sum/<num1>/<num2>', views.sum_numbers),
 ]

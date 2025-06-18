@@ -1,16 +1,46 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from datetime import datetime
+from django.views import View
+from django.http import JsonResponse
+from .models import Person
+
 
 # Create your views here.
 
-def welcome(request):
-        return JsonResponse({"message": "Welcome to the Personal Info API!"})
+class WelcomeView(View):
+    def get(self, request):
+        response = {
+        "message": "Welcome to the Personal Info API!"
+        }
+        return JsonResponse(response)
+
+class GoodbyeView(View):
+    def get(self, request):
+        response = {
+        "message": "Goodbye!"
+    }
+        return JsonResponse(response)
 
 
-def goodbye(request):
-        return JsonResponse({"message": "Goodbye, see you next time!!"})
+class TemplateView(View):
+    def get(self, request):
+        context = {
+            "site_name": "Meu Site Incrível",
+            "site_description": "Site criado usando Django.",
+            "current_year": datetime.now().year
+        }
+        return render(request, "template.html", context)
+    
 
+
+class PeopleView(View):
+    def get(self, request):
+        people = Person.objects.all()
+        data = [{"name": p.name, "age": p.age} for p in people]
+        return JsonResponse(data, safe=False)
+
+    
 
 def current_time(request):
         now = datetime.now().strftime("%H:%M:%S")
